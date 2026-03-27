@@ -1,0 +1,157 @@
+<div class="mx-auto max-w-4xl space-y-6 p-4 sm:p-6">
+  <!-- Back -->
+  <a routerLink="/directory" class="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 font-[Kanit]">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    กลับไปรายชื่อโรงเรียน
+  </a>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="flex items-center justify-center py-16">
+      <div class="h-10 w-10 animate-spin rounded-full border-4 border-indigo-200 border-t-indigo-600"></div>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error(); as err) {
+    <div class="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
+      <p class="text-red-600 font-[Kanit]">{{ err }}</p>
+      <a routerLink="/directory" class="mt-3 inline-block text-sm text-indigo-600 underline font-[Kanit]">กลับไปหน้ารวม</a>
+    </div>
+  }
+
+  @if (school(); as s) {
+    <!-- Hero -->
+    <div class="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-8 text-white shadow-lg">
+      <div class="flex items-center gap-4">
+        <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-white/20 text-4xl">
+          <i class="fas fa-school"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold font-[Kanit] sm:text-3xl">{{ s.nameTh }}</h1>
+          <p class="mt-1 text-blue-200 font-mono">{{ s.schoolCode }}</p>
+          <p class="text-blue-200 font-[Kanit]">{{ s.areaName }}</p>
+        </div>
+      </div>
+
+      @if (s.studentCount || s.teacherCount) {
+        <div class="mt-6 flex gap-6">
+          @if (s.teacherCount) {
+            <div>
+              <p class="text-2xl font-bold">{{ s.teacherCount }}</p>
+              <p class="text-sm text-blue-200 font-[Kanit]">ครู/บุคลากร</p>
+            </div>
+          }
+          @if (s.studentCount) {
+            <div>
+              <p class="text-2xl font-bold">{{ s.studentCount }}</p>
+              <p class="text-sm text-blue-200 font-[Kanit]">นักเรียน</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <!-- General Info -->
+      <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 font-[Kanit]">
+          <i class="fas fa-info-circle mr-2 text-indigo-500"></i>ข้อมูลทั่วไป
+        </h3>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-xs font-medium text-gray-500 font-[Kanit]">ชื่อโรงเรียน</dt>
+            <dd class="mt-0.5 text-gray-800 font-[Kanit]">{{ s.nameTh }}</dd>
+          </div>
+          @if (s.principal) {
+            <div>
+              <dt class="text-xs font-medium text-gray-500 font-[Kanit]">ผู้อำนวยการ</dt>
+              <dd class="mt-0.5 text-gray-800 font-[Kanit]">{{ s.principal }}</dd>
+            </div>
+          }
+          @if (s.establishedDate) {
+            <div>
+              <dt class="text-xs font-medium text-gray-500 font-[Kanit]">วันก่อตั้ง</dt>
+              <dd class="mt-0.5 text-gray-800">{{ s.establishedDate }}</dd>
+            </div>
+          }
+          @if (s.schoolType) {
+            <div>
+              <dt class="text-xs font-medium text-gray-500 font-[Kanit]">ประเภท/โครงสร้าง</dt>
+              <dd class="mt-0.5 text-gray-800 font-[Kanit]">{{ s.schoolType }}</dd>
+            </div>
+          }
+          @if (s.schoolLevel) {
+            <div>
+              <dt class="text-xs font-medium text-gray-500 font-[Kanit]">ระดับ</dt>
+              <dd class="mt-0.5 text-gray-800">{{ s.schoolLevel }}</dd>
+            </div>
+          }
+          @if (s.areaTypeName) {
+            <div>
+              <dt class="text-xs font-medium text-gray-500 font-[Kanit]">สังกัด</dt>
+              <dd class="mt-0.5 text-gray-800 font-[Kanit]">{{ s.areaTypeName }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+
+      <!-- Contact -->
+      <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800 font-[Kanit]">
+          <i class="fas fa-address-book mr-2 text-indigo-500"></i>ข้อมูลติดต่อ
+        </h3>
+        <dl class="space-y-3">
+          @if (s.phone) {
+            <div class="flex items-center gap-3">
+              <i class="fas fa-phone w-5 text-center text-gray-400"></i>
+              <div>
+                <dt class="text-xs text-gray-500 font-[Kanit]">โทรศัพท์</dt>
+                <dd class="text-gray-800">{{ s.phone }}</dd>
+              </div>
+            </div>
+          }
+          @if (s.phone2) {
+            <div class="flex items-center gap-3">
+              <i class="fas fa-phone w-5 text-center text-gray-400"></i>
+              <div>
+                <dt class="text-xs text-gray-500 font-[Kanit]">โทรศัพท์ 2</dt>
+                <dd class="text-gray-800">{{ s.phone2 }}</dd>
+              </div>
+            </div>
+          }
+          @if (s.email) {
+            <div class="flex items-center gap-3">
+              <i class="fas fa-envelope w-5 text-center text-gray-400"></i>
+              <div>
+                <dt class="text-xs text-gray-500 font-[Kanit]">อีเมล</dt>
+                <dd class="text-gray-800">{{ s.email }}</dd>
+              </div>
+            </div>
+          }
+          @if (s.website) {
+            <div class="flex items-center gap-3">
+              <i class="fas fa-globe w-5 text-center text-gray-400"></i>
+              <div>
+                <dt class="text-xs text-gray-500 font-[Kanit]">เว็บไซต์</dt>
+                <dd class="text-gray-800">{{ s.website }}</dd>
+              </div>
+            </div>
+          }
+          @if (s.address) {
+            <div class="flex items-start gap-3">
+              <i class="fas fa-map-marker-alt w-5 pt-0.5 text-center text-gray-400"></i>
+              <div>
+                <dt class="text-xs text-gray-500 font-[Kanit]">ที่อยู่</dt>
+                <dd class="text-gray-800 font-[Kanit]">{{ s.address.fullAddress || '-' }}</dd>
+              </div>
+            </div>
+          }
+        </dl>
+      </div>
+    </div>
+  }
+</div>

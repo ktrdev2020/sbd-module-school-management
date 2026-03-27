@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "description": "SBD Module - School Management",
+  "nx": {
+    "includedScripts": []
+  },
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
